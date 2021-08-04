@@ -15,5 +15,6 @@ namespace Desafio_Dev_Alura_BackEnd.Data
         }
 
         public DbSet<Video> Videos { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

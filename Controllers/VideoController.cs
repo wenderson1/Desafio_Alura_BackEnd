@@ -19,14 +19,14 @@ namespace Desafio_Dev_Alura_BackEnd.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Video>>> Get([FromServices] DataContext context)
         {
-            var videos = await context.Videos.ToListAsync();
+            var videos = await context.Videos.Where(v => v.Active == true).ToListAsync();
             return Ok(videos);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById([FromServices] DataContext context, int id)
         {
-            var video = context.Videos.SingleOrDefault(v => v.Id == id);
+            var video = context.Videos.Where(v => v.Active == true).SingleOrDefault(v => v.Id == id);
             if (video == null)
                 return NotFound("Vídeo não encontrado");
 
@@ -58,14 +58,14 @@ namespace Desafio_Dev_Alura_BackEnd.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete([FromServices] DataContext context,int id)
+        public IActionResult Delete([FromServices] DataContext context, int id)
         {
 
             var video = context.Videos.SingleOrDefault(v => v.Id == id);
             if (video == null)
                 return NotFound();
 
-            context.Remove(video);
+            video.Deactive();
             return Ok("Deletado");
         }
 
